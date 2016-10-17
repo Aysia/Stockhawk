@@ -208,7 +208,7 @@ public class StockTaskService extends GcmTaskService{
               resolver.delete(QuoteProvider.HistoricalQuotation.CONTENT_URI,
                       HistoricalDataColumns.SYMBOL + " = \"" + symbol + "\"", null);
               mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-                      Utils.quoteHistoJsonToContentVals(getHistoResponse));
+                      Utils.historicalDataJsonToContentVals(getHistoResponse));
             }catch (RemoteException | OperationApplicationException e){
               Log.e(LOG_TAG, "Error applying batch insert", e);
             }

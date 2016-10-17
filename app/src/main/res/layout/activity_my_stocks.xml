@@ -12,49 +12,25 @@
         android:layout_height="match_parent"
         />
 
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:id="@+id/llNoInternetView">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/off_white"
-            android:background="@drawable/off_white"/>
         <TextView
+            android:id="@+id/internet_connection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="18sp"
             android:text="@string/no_internet_message"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:id="@+id/llNoStocksView"
-        android:visibility="gone">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/clear_white"
-            android:background="@drawable/clear_white"/>
+
         <TextView
+            android:id="@+id/stock_empty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="18sp"
             android:text="@string/no_stocks_message"/>
-    </LinearLayout>
+
 
     <!-- Make accessible with contentDescription -->
     <com.melnykov.fab.FloatingActionButton

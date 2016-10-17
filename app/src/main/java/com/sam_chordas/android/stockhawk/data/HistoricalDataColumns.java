@@ -6,7 +6,7 @@ import net.simonvt.schematic.annotation.NotNull;
 import net.simonvt.schematic.annotation.PrimaryKey;
 
 /**
- * define columns to hold historical quotations for display in graph
+ * define columns to hold historical data for display in graph
  */
 
 public class HistoricalDataColumns {
@@ -17,7 +17,7 @@ public class HistoricalDataColumns {
     @DataType(DataType.Type.TEXT) @NotNull
     public static final String SYMBOL = "symbol";
     @DataType(DataType.Type.TEXT) @NotNull
-    public static final String OPENPRICE = "open_price";
+    public static final String OPEN_PRICE = "open_price";
     @DataType(DataType.Type.TEXT)
     public static final String DATE = "date";
 }

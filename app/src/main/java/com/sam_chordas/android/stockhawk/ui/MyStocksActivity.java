@@ -19,12 +19,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.facebook.stetho.Stetho;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
@@ -87,8 +85,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     @Override public void onItemClick(View v, int position) {
                         String stockSymbol = ((TextView) v.findViewById(R.id.stock_symbol)).getText().toString();
                         Intent intent = new Intent(mContext, MyStockDetailActivity.class);
-                        intent.putExtra(MyStockDetailActivity.ARG_STOCK_SYMBOL, stockSymbol);
-                        intent.putExtra(MyStockDetailActivity.ARG_PARENT, MyStockDetailActivity.ARGVALUE_PARENT_ACTIVITY);
+                        intent.putExtra(MyStockDetailActivity.STOCK_SYMBOL, stockSymbol);
+                        intent.putExtra(MyStockDetailActivity.PARENT, MyStockDetailActivity.PARENT_ACTIVITY);
                         startActivity(intent);
                     }
                 }));
@@ -220,19 +218,21 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter.swapCursor(data);
         mCursor = data;
 
-        LinearLayout noInternetView = (LinearLayout) findViewById(R.id.llNoInternetView);
-        LinearLayout noStockView = (LinearLayout) findViewById(R.id.llNoStocksView);
+        TextView noConnection = (TextView) findViewById(R.id.internet_connection);
+        TextView noStock = (TextView) findViewById(R.id.stock_empty);
+
+        //if cursor adapter is empty
         if(mCursorAdapter.getItemCount() == 0){
-            if(!isConnected(mContext)){
-                noInternetView.setVisibility(View.VISIBLE);
-                noStockView.setVisibility(View.GONE);
+            if(!isConnected(mContext)){ //no connection made
+                noConnection.setVisibility(View.VISIBLE); //display noConnection textView
+                noStock.setVisibility(View.GONE);
             }else{
-                noInternetView.setVisibility(View.GONE);
-                noStockView.setVisibility(View.VISIBLE);
+                noConnection.setVisibility(View.GONE);
+                noStock.setVisibility(View.VISIBLE); //display noStock textView
             }
         }else{
-            noInternetView.setVisibility(View.GONE);
-            noStockView.setVisibility(View.GONE);
+            noConnection.setVisibility(View.GONE); //gone
+            noStock.setVisibility(View.GONE); //gone
         }
     }
 

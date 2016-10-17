@@ -29,14 +29,14 @@ import lecho.lib.hellocharts.view.LineChartView;
 
 public class MyStockDetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    public static final String ARG_STOCK_SYMBOL = "stock_symbol";
-    public static final String ARG_PARENT = "parent";
-    public static final String ARGVALUE_PARENT_ACTIVITY = "activity";
-    public static final String ARGVALUE_PARENT_WIDGET = "widget";
+    public static final String STOCK_SYMBOL = "stock_symbol";
+    public static final String PARENT = "parent";
+    public static final String PARENT_ACTIVITY = "activity";
+    public static final String PARENT_WIDGET = "widget";
     private static final int CURSOR_LOADER_ID = 0;
 
     private String stockSymbol;
-    private LineChartView mLineChart;
+    private LineChartView mChart;
 
     private TextView graph_begin;
     private TextView graph_end;
@@ -49,8 +49,10 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_graph);
 
-        stockSymbol = getIntent().getExtras().getString(ARG_STOCK_SYMBOL);
-        mLineChart = (LineChartView) findViewById(R.id.chart);
+        stockSymbol = getIntent().getExtras().getString(STOCK_SYMBOL);
+
+        //Obtailn linechartview withid linechart from activity_lin_graph.xml
+        mChart = (LineChartView) findViewById(R.id.linechart);
 
         graph_begin = (TextView) findViewById(R.id.graph_begin);
         graph_end = (TextView) findViewById(R.id.graph_end);
@@ -70,7 +72,7 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
                 HistoricalDataColumns._ID,
                 HistoricalDataColumns.SYMBOL,
                 HistoricalDataColumns.DATE,
-                HistoricalDataColumns.OPENPRICE};
+                HistoricalDataColumns.OPEN_PRICE};
 
         String selection = HistoricalDataColumns.SYMBOL + " = ?";
 
@@ -89,6 +91,11 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        /**
+         * Create Chart - tutorial found here
+         * http://nipunswritings.blogspot.com/2016/06/hellocharts-for-android-example.html
+         */
+
         int x = 0;
 
         if (data.moveToFirst()){
@@ -101,7 +108,7 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
 
             do {
                 String date = data.getString(data.getColumnIndex(HistoricalDataColumns.DATE));
-                String sPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPENPRICE));
+                String sPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPEN_PRICE));
                 Float fPrice = Float.valueOf(sPrice);
 
                 if (maxValue == 0f || fPrice > maxValue){
@@ -123,7 +130,7 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
                 x++;
             } while (data.moveToNext());
 
-            // Draw Line
+            // Draw Lines
             Line line = new Line(pointValues).setColor(Color.GREEN).setCubic(false);
             List<Line> lines = new ArrayList<>();
             lines.add(line);
@@ -144,18 +151,18 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
             axisY.setMaxLabelChars(4);
             lineChartData.setAxisYLeft(axisY);
 
-            // Update chart with data
-            mLineChart.setInteractive(false);
-            mLineChart.setLineChartData(lineChartData);
+            // provide chart data to linechartview (@mChart)
+            mChart.setInteractive(false);
+            mChart.setLineChartData(lineChartData);
 
             // Define start date and end date, and evolution of price on this period
             data.moveToFirst();
             String startDate = data.getString(data.getColumnIndex(HistoricalDataColumns.DATE));
-            String sStartPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPENPRICE));
+            String sStartPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPEN_PRICE));
             Float fStartPrice = Float.valueOf(sStartPrice);
             data.moveToLast();
             String endDate = data.getString(data.getColumnIndex(HistoricalDataColumns.DATE));
-            String sEndPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPENPRICE));
+            String sEndPrice = data.getString(data.getColumnIndex(HistoricalDataColumns.OPEN_PRICE));
             Float fEndPrice = Float.valueOf(sEndPrice);
             @SuppressLint("DefaultLocale") String evolution = String.format("%.4f",(fEndPrice-fStartPrice)*100/fStartPrice) + " %";
 
@@ -177,7 +184,7 @@ public class MyStockDetailActivity extends AppCompatActivity implements LoaderMa
     public void onBackPressed() {
         super.onBackPressed();
 
-        if (getIntent().getExtras().getString(ARG_PARENT) == ARGVALUE_PARENT_WIDGET) {
+        if (getIntent().getExtras().getString(PARENT) == PARENT_WIDGET) {
             Intent intent = new Intent(this, MyStocksActivity.class);
             startActivity(intent);
         } else {

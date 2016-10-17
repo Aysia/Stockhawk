@@ -12,8 +12,10 @@ import com.sam_chordas.android.stockhawk.ui.MyStockDetailActivity;
 
 /**
  * WidgetProvider
+ * With assistance from http://www.androidauthority.com/create-simple-android-widget-608975/
+ * and http://www.vogella.com/tutorials/AndroidWidgets/article.html
  */
-public class WidgetProvider extends android.appwidget.AppWidgetProvider {
+public class SimpleWidgetProvider extends android.appwidget.AppWidgetProvider {
 
     static void updateWidget(Context context, AppWidgetManager appWidgetManager,
                              int appWidgetId) {

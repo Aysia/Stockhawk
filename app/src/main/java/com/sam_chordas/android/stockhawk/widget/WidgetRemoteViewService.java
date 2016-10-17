@@ -12,10 +12,6 @@ import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import com.sam_chordas.android.stockhawk.ui.MyStockDetailActivity;
 
-/**
- * udacity-stockhawk
- * Created on 06/09/2016 by Frédéric Letellier.
- */
 public class WidgetRemoteViewService implements RemoteViewsService.RemoteViewsFactory {
 
     private Cursor mCursor;
@@ -102,8 +98,8 @@ public class WidgetRemoteViewService implements RemoteViewsService.RemoteViewsFa
             }
 
             Intent intent = new Intent();
-            intent.putExtra(MyStockDetailActivity.ARG_STOCK_SYMBOL, symbol);
-            intent.putExtra(MyStockDetailActivity.ARG_PARENT, MyStockDetailActivity.ARGVALUE_PARENT_WIDGET);
+            intent.putExtra(MyStockDetailActivity.STOCK_SYMBOL, symbol);
+            intent.putExtra(MyStockDetailActivity.PARENT, MyStockDetailActivity.PARENT_WIDGET);
             remoteViews.setOnClickFillInIntent(R.id.stock_row, intent);
         }
         return remoteViews;

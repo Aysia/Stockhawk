@@ -59,7 +59,7 @@ public class Utils {
         return batchOperations;
     }
 
-    public static ArrayList quoteHistoJsonToContentVals(String JSON){
+    public static ArrayList historicalDataJsonToContentVals(String JSON){
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
         JSONObject jsonObject = null;
         JSONArray resultsArray = null;
@@ -72,7 +72,7 @@ public class Utils {
                 if (resultsArray != null && resultsArray.length() != 0){
                     for (int i = 0; i < resultsArray.length(); i++){
                         jsonObject = resultsArray.getJSONObject(i);
-                        batchOperations.add(buildHistoBatchOperation(jsonObject));
+                        batchOperations.add(buildHDataBatchOperation(jsonObject));
                     }
                 }
             }
@@ -128,13 +128,13 @@ public class Utils {
         return builder.build();
     }
 
-    public static ContentProviderOperation buildHistoBatchOperation(JSONObject jsonObject){
+    public static ContentProviderOperation buildHDataBatchOperation(JSONObject jsonObject){
         ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
                 QuoteProvider.HistoricalQuotation.CONTENT_URI);
         try {
             builder.withValue(HistoricalDataColumns.SYMBOL, jsonObject.getString("Symbol"));
             builder.withValue(HistoricalDataColumns.DATE, jsonObject.getString("Date"));
-            builder.withValue(HistoricalDataColumns.OPENPRICE, jsonObject.getString("Open"));
+            builder.withValue(HistoricalDataColumns.OPEN_PRICE, jsonObject.getString("Open"));
         } catch (JSONException e){
             e.printStackTrace();
         }
