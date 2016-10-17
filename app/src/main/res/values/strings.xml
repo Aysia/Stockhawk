@@ -1,6 +1,7 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
+  <string name="app_name" translatable="false">Stock Hawk</string>
 
+  <!-- Translate Below -->
   <string name="action_example">Example action</string>
 
   <string name="action_settings">Settings</string>
@@ -8,9 +9,28 @@
   <string name="symbol_search">Symbol Search</string>
   <string name="content_test">Search for a Stock Symbol</string>
   <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
+  <string name="input_prefill" />
   <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+  <string name="add_new_stock">Add a new stock</string>
+  <string name="already_saved_toast">This stock is already saved!</string>
+  <string name="stock_detail_label">Stock</string>
+  <string name="graph_content_description">Stock Chart</string>
+  <string name="graph_begin">Graph begin</string>
+  <string name="graph_end">Graph end</string>
+  <string name="graph_evolution">Evolution</string>
+  <string name="graph_max">Max</string>
+  <string name="graph_min">Min</string>
+  <string name="appwidget_text">EXAMPLE</string>
+  <string name="add_widget">Add widget</string>
+  <string name="string_stock_invalid">This stock symbol is invalid!</string>
+  <string name="no_internet_message">No interenet connection found</string>
+  <string name="no_stocks_message">No Stocks Saved</string>
+  <string name="detail_activity">Stock</string>
 
-  <!-- Error Checking -->
-  <string name="notify_no_data">No Stock Data Available.</string>
+  <string name="cursor_is_valid">This should only be called when Cursor is valid</string>
+  <string name="cursor_to_position">Could not move Cursor to position:</string>
+
+  <!-- Accessibility -->
+  <string name="off_white">off_white_image</string>
+  <string name="clear_white">clear white image</string>
 </resources>
