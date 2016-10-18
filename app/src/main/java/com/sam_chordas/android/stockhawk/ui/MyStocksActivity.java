@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +39,13 @@ import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static android.R.attr.inputType;
+import static android.R.id.input;
+import static android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     /**
@@ -53,6 +62,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
+
+    final String LOG_TAG = MyStocksActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,9 +111,19 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 if (isConnected(mContext)){
                     new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                             .content(R.string.content_test)
-                            .inputType(InputType.TYPE_CLASS_TEXT)
+                            .inputRange(1,5)
+                            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS)
                             .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                                 @Override public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                    //Set All Caps
+
+                                    //Verify no spaces
+                                    if (containsWhiteSpace(input.toString())) {
+                                        Toast.makeText(MyStocksActivity.this, R.string.string_stock_invalid,
+                                                Toast.LENGTH_LONG).show();
+                                    } else {
+
                                     // Verify if stock received is not saved already
                                     Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                                             new String[] { QuoteColumns.SYMBOL }, QuoteColumns.SYMBOL + "= ?",
@@ -114,13 +135,20 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
                                         return;
+
                                     } else {
+
                                         // Add the stock to DB
                                         mServiceIntent.putExtra("tag", "add");
                                         mServiceIntent.putExtra("symbol", input.toString());
                                         startService(mServiceIntent);
+                                        Toast toast =
+                                                Toast.makeText(MyStocksActivity.this, R.string.stock_added,
+                                                        Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+                                        toast.show();
                                     }
-                                }
+                                } }
                             })
                             .show();
                 } else {
@@ -245,5 +273,16 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static boolean containsWhiteSpace(final String testCode){
+        if(testCode != null){
+            for(int i = 0; i < testCode.length(); i++){
+                if(!Character.isLetter(testCode.charAt(i))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

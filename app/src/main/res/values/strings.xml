@@ -26,6 +26,10 @@
   <string name="no_internet_message">No interenet connection found</string>
   <string name="no_stocks_message">No Stocks Saved</string>
   <string name="detail_activity">Stock</string>
+  <string name="stock_added">Stock added</string>
+  <string name="default_stock_symbol" translatable="false">GOOG</string>
+  <string name="default_bid_price" translatable="false">1000.00</string>
+  <string name="default_percent_change" translatable="false">100%</string>
 
   <string name="cursor_is_valid">This should only be called when Cursor is valid</string>
   <string name="cursor_to_position">Could not move Cursor to position:</string>
